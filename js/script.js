@@ -32,7 +32,7 @@ function currentUser() {
 }
 
 function applyTheme() {
-  const savedTheme = localStorage.getItem(STORAGE.THEME) || "light";
+  const savedTheme = localStorage.getItem(STORAGE.THEME) || "dark";
   document.body.classList.toggle("dark", savedTheme === "dark");
   const icon = $("#themeBtn i");
   if (icon) {
@@ -63,6 +63,35 @@ function navAuthState() {
   registerLink.style.display = loggedIn ? "none" : "";
   dashboardLink.style.display = loggedIn ? "" : "none";
   logoutBtn.style.display = loggedIn ? "" : "none";
+
+  // ===== User Profile Chip (inject once, update always) =====
+  let chip = document.getElementById("userChip");
+  if (!chip) {
+    const actions = document.querySelector(".actions");
+    if (actions) {
+      chip = document.createElement("div");
+      chip.id = "userChip";
+      chip.className = "user-chip";
+      chip.title = "ข้อมูลถูกเก็บชั่วคราวในเบราว์เซอร์ จนกว่าจะ Logout";
+      chip.innerHTML = `
+        <div class="user-chip-avatar" id="userChipAvatar"></div>
+        <div class="user-chip-info">
+          <span class="user-chip-name" id="userChipName"></span>
+          <span class="user-chip-note">⏳ ชั่วคราว (Session)</span>
+        </div>
+      `;
+      actions.insertBefore(chip, actions.firstChild);
+    }
+  }
+  if (chip) {
+    chip.style.display = loggedIn ? "flex" : "none";
+    if (loggedIn && auth?.name) {
+      const chipAvatar = document.getElementById("userChipAvatar");
+      const chipName   = document.getElementById("userChipName");
+      if (chipAvatar) chipAvatar.textContent = auth.name.charAt(0).toUpperCase();
+      if (chipName)   chipName.textContent = auth.name;
+    }
+  }
 }
 
 function logout() {
@@ -189,27 +218,7 @@ function setupDashboard() {
   if (userEmail) userEmail.textContent = auth.email;
 }
 
-function setupPageTransitions() {
-  const overlay = document.createElement("div");
-  overlay.id = "pageTransition";
-  document.body.appendChild(overlay);
 
-  requestAnimationFrame(() => overlay.classList.add("ready"));
-
-  document.addEventListener("click", (e) => {
-    const link = e.target.closest("a[href]");
-    if (!link) return;
-    const href = link.getAttribute("href");
-    if (!href || href.startsWith("#") || link.target === "_blank") return;
-    const isExternal = /^https?:\/\//i.test(href) && !href.includes(location.host);
-    if (isExternal) return;
-    e.preventDefault();
-    overlay.classList.remove("ready");
-    setTimeout(() => {
-      window.location.href = href;
-    }, 220);
-  });
-}
 
 document.addEventListener("click", (e) => {
   const target = e.target.closest("a,button,.card");
@@ -217,7 +226,7 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  setupPageTransitions();
+
   applyTheme();
   syncAudioIcon();
   navAuthState();

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เส้นทางการเรียน - FinMaster Academy</title>
+  <script>if(localStorage.getItem("website.theme")==="dark"||!localStorage.getItem("website.theme"))document.documentElement.classList.add("dark");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .page-hero{padding:3rem 0 2rem}
+    .page-hero .badge{background:linear-gradient(135deg,var(--header-grad-a),var(--header-grad-c));color:#fff;padding:.3rem .9rem;border-radius:20px;font-size:.85rem;font-weight:600;display:inline-block;margin-bottom:1rem}
+    .page-hero h1{font-size:clamp(2rem,5vw,3rem);background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .page-hero p{color:var(--muted);margin-top:.8rem;font-size:1.05rem;max-width:600px}
+    .path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2rem 0;position:relative}
+    .path-grid::before{content:'';position:absolute;top:60px;left:calc(33.33% + 1rem);right:calc(33.33% + 1rem);height:3px;background:linear-gradient(90deg,var(--header-grad-a),var(--brand));border-radius:3px;z-index:0}
+    .path-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.5rem;text-align:center;position:relative;z-index:1}
+    .path-num{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;color:#fff;margin:0 auto 1rem;background:linear-gradient(135deg,var(--header-grad-a),var(--brand))}
+    .path-card h3{margin-bottom:.5rem}
+    .path-card ul{list-style:none;text-align:left;margin-top:.8rem}
+    .path-card ul li{padding:.3rem 0;color:var(--muted);font-size:.85rem}
+    .path-card ul li::before{content:'→ ';color:var(--brand)}
+    .path-card.highlight{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 30%,transparent)}
+    table{width:100%;border-collapse:collapse;margin-top:1rem}
+    th{background:linear-gradient(135deg,var(--header-grad-a),var(--header-grad-c));color:#fff;padding:.9rem 1rem;text-align:left;font-size:.9rem}
+    th:first-child{border-radius:14px 0 0 0}th:last-child{border-radius:0 14px 0 0}
+    td{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-size:.88rem;color:var(--muted)}
+    tr:last-child td{border-bottom:none}tr:hover td{background:color-mix(in srgb,var(--brand) 5%,transparent);color:var(--text)}
+    .badge-pill{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .pill-green{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+    .pill-blue{background:color-mix(in srgb,var(--brand) 18%,transparent);color:var(--brand)}
+    .pill-purple{background:color-mix(in srgb,var(--brand-2) 18%,transparent);color:var(--brand-2)}
+    @media(max-width:760px){.path-grid{grid-template-columns:1fr}.path-grid::before{display:none}}
+  </style>
+</head>
+<body>
+  <div class="blob-bg"></div>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/logo.png" alt="FinMaster Logo" class="brand-logo-img"/>FinMaster Academy</a>
+      <ul class="nav-links">
+        <li><a href="index.html">หน้าแรก</a></li><li><a href="about.html">เกี่ยวกับ</a></li>
+        <li><a href="services.html">คอร์ส</a></li><li><a href="contact.html">ติดต่อ</a></li>
+        <li><a id="navLogin" href="login.html">เข้าสู่ระบบ</a></li>
+        <li><a id="navRegister" href="register.html">สมัครสมาชิก</a></li>
+        <li><a id="navDashboard" href="dashboard.html" style="display:none">แดชบอร์ด</a></li>
+        <li><a id="navLogout" href="#" style="display:none">ออกจากระบบ</a></li>
+      </ul>
+      <div class="actions">
+        <button id="themeBtn" class="icon-btn" type="button"><i class="fa-solid fa-moon"></i></button>
+        <button id="audioBtn" class="icon-btn" type="button"><i class="fa-solid fa-volume-high"></i></button>
+        <button id="menuBtn" class="icon-btn menu-btn" type="button"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-hero gs-reveal">
+      <div class="badge"><i class="fa-solid fa-user-graduate"></i> ฟีเจอร์</div>
+      <h1>เส้นทางการเรียน</h1>
+      <p>ระบบแนะนำเส้นทาง 3 ระดับที่ออกแบบมาสำหรับทุกช่วงความรู้ ตั้งแต่ผู้เริ่มต้นจนถึงระดับ Advanced</p>
+    </div>
+
+    <section class="section gs-reveal">
+      <h2>3 ระดับการเรียนรู้</h2>
+      <div class="path-grid">
+        <div class="path-card">
+          <div class="path-num">1</div>
+          <h3>Beginner</h3>
+          <p class="muted" style="font-size:.85rem">สำหรับผู้เริ่มต้น ไม่มีพื้นฐานก็เรียนได้</p>
+          <ul>
+            <li>Finance 101: การเงินส่วนบุคคล</li>
+            <li>วางแผนออมเงินเบื้องต้น</li>
+            <li>ทำความรู้จักการลงทุน</li>
+          </ul>
+        </div>
+        <div class="path-card highlight">
+          <div class="path-num" style="background:linear-gradient(135deg,var(--brand),var(--brand-2))">2</div>
+          <h3>Intermediate</h3>
+          <p class="muted" style="font-size:.85rem">สำหรับผู้ที่มีพื้นฐานการเงินมาบ้างแล้ว</p>
+          <ul>
+            <li>Portfolio Management</li>
+            <li>วิเคราะห์หุ้นเบื้องต้น</li>
+            <li>บริหารภาษีอย่างมีประสิทธิภาพ</li>
+          </ul>
+        </div>
+        <div class="path-card">
+          <div class="path-num" style="background:linear-gradient(135deg,var(--brand-2),#c562ff)">3</div>
+          <h3>Advanced</h3>
+          <p class="muted" style="font-size:.85rem">สำหรับผู้ที่ต้องการสร้างความมั่งคั่งระยะยาว</p>
+          <ul>
+            <li>Risk Management เชิงลึก</li>
+            <li>กลยุทธ์ลงทุนขั้นสูง</li>
+            <li>Financial Independence Plan</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gs-reveal">
+      <h2>ตารางเปรียบเทียบแต่ละระดับ</h2>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th>หัวข้อ</th><th>Beginner</th><th>Intermediate</th><th>Advanced</th></tr></thead>
+          <tbody>
+            <tr><td>ระยะเวลาเฉลี่ย</td><td>4-6 สัปดาห์</td><td>6-8 สัปดาห์</td><td>8-12 สัปดาห์</td></tr>
+            <tr><td>จำนวนบทเรียน</td><td>12-18 บท</td><td>20-28 บท</td><td>30-40 บท</td></tr>
+            <tr><td>แบบฝึกหัด</td><td>Basic Quiz</td><td>Case Study</td><td>Portfolio Project</td></tr>
+            <tr><td>Certificate</td>
+              <td><span class="badge-pill pill-green">ได้รับ</span></td>
+              <td><span class="badge-pill pill-blue">ได้รับ</span></td>
+              <td><span class="badge-pill pill-purple">ได้รับ (Premium)</span></td>
+            </tr>
+            <tr><td>การสนับสนุน</td><td>Forum</td><td>Forum + Q&A Live</td><td>1:1 Coaching</td></tr>
+            <tr><td>ราคาเริ่มต้น</td><td>฿1,490</td><td>฿2,990</td><td>฿4,990</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section gs-reveal" style="text-align:center;padding-bottom:3rem">
+      <a href="services.html" class="btn primary" style="font-size:1.1rem;padding:.9rem 2.5rem">ดูคอร์สทั้งหมด <i class="fa-solid fa-arrow-right"></i></a>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container"><p>FinMaster Academy - แพลตฟอร์มคอร์สการเงินครบวงจร</p></div></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",()=>{gsap.registerPlugin(ScrollTrigger);gsap.utils.toArray('.gs-reveal').forEach(el=>gsap.fromTo(el,{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}}));});</script>
+</body>
+</html>

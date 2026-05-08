@@ -9,10 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="css/styles.css" />
+    <script>
+      if (localStorage.getItem("website.theme") === "dark" || !localStorage.getItem("website.theme")) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
   </head>
   <body>
     <div class="blob-bg"></div>
-    <header class="site-header"><div class="container nav"><a class="brand" href="index.html"><span class="brand-logo"><i class="fa-solid fa-chart-pie"></i></span>FinMaster Academy</a><ul class="nav-links"><li><a href="index.html">หน้าแรก</a></li><li><a href="about.html">เกี่ยวกับ</a></li><li><a href="services.html">คอร์ส</a></li><li><a class="active" href="contact.html">ติดต่อ</a></li><li><a id="navLogin" href="login.html">เข้าสู่ระบบ</a></li><li><a id="navRegister" href="register.html">สมัครสมาชิก</a></li><li><a id="navDashboard" href="dashboard.html" style="display: none">แดชบอร์ด</a></li><li><a id="navLogout" href="#" style="display: none">ออกจากระบบ</a></li></ul><div class="actions"><button id="themeBtn" class="icon-btn" type="button"><i class="fa-solid fa-moon"></i></button><button id="audioBtn" class="icon-btn" type="button"><i class="fa-solid fa-volume-high"></i></button><button id="menuBtn" class="icon-btn menu-btn" type="button"><i class="fa-solid fa-bars"></i></button></div></div></header>
+    <header class="site-header"><div class="container nav"><a class="brand" href="index.html"><img src="assets/logo.png" alt="FinMaster Logo" class="brand-logo-img" />FinMaster Academy</a><ul class="nav-links"><li><a href="index.html">หน้าแรก</a></li><li><a href="about.html">เกี่ยวกับ</a></li><li><a href="services.html">คอร์ส</a></li><li><a class="active" href="contact.html">ติดต่อ</a></li><li><a id="navLogin" href="login.html">เข้าสู่ระบบ</a></li><li><a id="navRegister" href="register.html">สมัครสมาชิก</a></li><li><a id="navDashboard" href="dashboard.html" style="display: none">แดชบอร์ด</a></li><li><a id="navLogout" href="#" style="display: none">ออกจากระบบ</a></li></ul><div class="actions"><button id="themeBtn" class="icon-btn" type="button"><i class="fa-solid fa-moon"></i></button><button id="audioBtn" class="icon-btn" type="button"><i class="fa-solid fa-volume-high"></i></button><button id="menuBtn" class="icon-btn menu-btn" type="button"><i class="fa-solid fa-bars"></i></button></div></div></header>
     <main class="container">
       <section class="section"><h1>ติดต่อทีมที่ปรึกษา</h1><p class="muted">สอบถามรายละเอียดคอร์ส, แผนการเรียน หรือขอคำแนะนำการเงินเบื้องต้น</p></section>
       <section class="section grid-2">

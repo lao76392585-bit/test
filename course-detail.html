@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>รายละเอียดคอร์ส - FinMaster Academy</title>
+    <script>
+      const savedTheme = localStorage.getItem("website.theme") || "dark";
+      if (savedTheme === "dark") document.documentElement.classList.add("dark");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      body.dark, html.dark { background-color: #080c1d; }
+      body { animation: fadeIn 0.5s ease-out forwards; }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .course-header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-top: 2rem;
+        align-items: center;
+      }
+      .course-image {
+        width: 100%;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        object-fit: cover;
+        aspect-ratio: 4/3;
+        transform: perspective(1000px) rotateY(-5deg);
+        transition: 0.5s;
+      }
+      .course-image:hover {
+        transform: perspective(1000px) rotateY(0deg);
+      }
+      .course-info h1 {
+        font-size: 3rem;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+      .course-meta {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .course-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+      .course-meta i {
+        color: var(--brand);
+      }
+      .course-meta .meta-sep {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--muted);
+        opacity: 0.5;
+        flex-shrink: 0;
+      }
+
+      /* SVG theme-aware classes */
+      .chart-grid-line { stroke: var(--border); stroke-width: 1; }
+      .chart-dot { fill: var(--brand); }
+      .chart-dot-end { fill: var(--header-grad-a); stroke: var(--card); stroke-width: 2; }
+
+      /* ===== CHART SECTION ===== */
+      .chart-section {
+        padding: 3rem 0;
+        text-align: center;
+      }
+      .chart-section h2 {
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        margin-bottom: 0.5rem;
+      }
+      .chart-section .chart-sub {
+        color: var(--muted);
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
+      }
+      .chart-wrapper {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 2rem 1.5rem 1.5rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      .chart-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 24px;
+        background: linear-gradient(120deg, transparent, #ffffff0f, transparent);
+        pointer-events: none;
+      }
+      #growthChart {
+        width: 100%;
+        height: 220px;
+        display: block;
+      }
+      .chart-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        padding: 0 0.5rem;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 500;
+      }
+      .chart-legend {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--header-grad-a), var(--brand));
+      }
+      .curriculum-list {
+        list-style: none;
+        margin-top: 1rem;
+      }
+      .curriculum-list li {
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.3s;
+      }
+      .curriculum-list li:hover {
+        transform: translateX(10px);
+        border-color: var(--brand);
+      }
+      @media (max-width: 768px) {
+        .course-header {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ===== ENROLLMENT CHART ===== */
+      .enroll-section { padding: 2rem 0; text-align: center; }
+      .enroll-section h2 { font-size: clamp(1.4rem,3vw,2.2rem); margin-bottom: 0.4rem; }
+      .enroll-sub { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+      .enroll-wrap {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 2rem 1.5rem 1rem;
+        box-shadow: var(--shadow);
+        position: relative; overflow: hidden;
+      }
+      .enroll-wrap::before {
+        content:'';
+        position:absolute; inset:-1px; border-radius:24px;
+        background:linear-gradient(120deg,transparent,#ffffff0f,transparent);
+        pointer-events:none;
+      }
+      #enrollChart { width:100%; height:220px; display:block; }
+      .enroll-month-labels {
+        display:flex; justify-content:space-between;
+        margin-top:0.5rem; padding:0 0.5rem;
+        color:var(--muted); font-size:0.78rem; font-weight:500;
+      }
+      .enroll-legend {
+        display:flex; align-items:center; justify-content:center;
+        gap:0.5rem; margin-top:1rem; font-size:0.85rem; color:var(--muted);
+      }
+
+      /* ===== REVIEW SECTION ===== */
+      .review-section { padding: 2rem 0; }
+      .review-overview {
+        display: flex; gap: 2rem; align-items: flex-start;
+        flex-wrap: wrap; margin-bottom: 2rem;
+      }
+      .rating-big { text-align:center; min-width:90px; }
+      .rating-score {
+        font-size:3.5rem; font-weight:800; line-height:1;
+        background:linear-gradient(135deg,var(--header-grad-a),var(--brand));
+        -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      }
+      .rating-stars { color:#f7c549; font-size:1.05rem; margin:0.3rem 0; }
+      .rating-count { font-size:0.78rem; color:var(--muted); }
+      .rating-bars { flex:1; min-width:180px; }
+      .bar-row {
+        display:flex; align-items:center;
+        gap:0.6rem; margin-bottom:0.5rem;
+        font-size:0.8rem; color:var(--muted);
+      }
+      .bar-track {
+        flex:1; height:7px; background:var(--border);
+        border-radius:20px; overflow:hidden;
+      }
+      .bar-fill {
+        height:100%; border-radius:20px;
+        background:linear-gradient(90deg,var(--header-grad-a),var(--brand));
+        width:0; transition:width 1.2s ease;
+      }
+      .review-list { display:flex; flex-direction:column; gap:1rem; }
+      .review-item {
+        background:var(--card); border:1px solid var(--border);
+        border-radius:18px; padding:1.2rem 1.5rem;
+        position:relative; overflow:hidden; transition:0.3s;
+      }
+      .review-item:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+      .review-item::before {
+        content:''; position:absolute; inset:-1px; border-radius:18px;
+        background:linear-gradient(120deg,transparent,#ffffff10,transparent);
+        transform:translateX(-110%); transition:transform 0.6s; pointer-events:none;
+      }
+      .review-item:hover::before { transform:translateX(110%); }
+      .review-top {
+        display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;
+      }
+      .reviewer-avatar {
+        width:42px; height:42px; border-radius:50%;
+        display:flex; align-items:center; justify-content:center;
+        color:#fff; font-weight:700; font-size:1rem; flex-shrink:0;
+      }
+      .reviewer-name { font-weight:600; font-size:0.95rem; }
+      .reviewer-date { font-size:0.76rem; color:var(--muted); }
+      .review-stars-row { color:#f7c549; font-size:0.8rem; margin-left:auto; }
+      .review-text { color:var(--muted); font-size:0.92rem; line-height:1.7; }
+      .write-review {
+        background:var(--card); border:1px solid var(--border);
+        border-radius:18px; padding:1.5rem; margin-top:1.5rem;
+      }
+      .write-review h3 { margin-bottom:0.8rem; font-size:1.05rem; }
+      .star-picker { display:flex; gap:0.35rem; margin:0.4rem 0 1rem; }
+      .star-picker i {
+        font-size:1.9rem; cursor:pointer;
+        color:var(--border); transition:color 0.15s,transform 0.15s;
+      }
+      .star-picker i.lit { color:#f7c549; transform:scale(1.2); }
+      .review-actions { display:flex; justify-content:flex-end; margin-top:1rem; }
+      #reviewList:empty::after {
+        content:'ยังไม่มีรีวิว เป็นคนแรกที่รีวิวคอร์สนี้!';
+        display:block; text-align:center; color:var(--muted);
+        padding:2rem; font-size:0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob-bg"></div>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html"><img src="assets/logo.png" alt="FinMaster Logo" class="brand-logo-img" />FinMaster Academy</a>
+        <ul class="nav-links">
+          <li><a href="index.html">หน้าแรก</a></li>
+          <li><a href="about.html">เกี่ยวกับ</a></li>
+          <li><a class="active" href="services.html">คอร์ส</a></li>
+          <li><a href="contact.html">ติดต่อ</a></li>
+          <li><a id="navLogin" href="login.html">เข้าสู่ระบบ</a></li>
+          <li><a id="navRegister" href="register.html">สมัครสมาชิก</a></li>
+          <li><a id="navDashboard" href="dashboard.html" style="display: none">แดชบอร์ด</a></li>
+          <li><a id="navLogout" href="#" style="display: none">ออกจากระบบ</a></li>
+        </ul>
+        <div class="actions">
+          <button id="themeBtn" class="icon-btn" type="button" title="Theme"><i class="fa-solid fa-moon"></i></button>
+          <button id="audioBtn" class="icon-btn" type="button" title="Sound"><i class="fa-solid fa-volume-high"></i></button>
+          <button id="menuBtn" class="icon-btn menu-btn" type="button" title="Menu"><i class="fa-solid fa-bars"></i></button>
+          <a class="btn primary desktop-only" href="register.html">สมัครเรียนคอร์ส</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="course-header gs-reveal">
+        <div class="course-info">
+          <div class="badge" style="background: var(--header-grad-a); padding: 0.3rem 0.8rem; border-radius: 20px; color: white; display: inline-block; margin-bottom: 1rem; font-weight: 600; font-size: 0.9rem;">สุดยอดคอร์สแห่งปี</div>
+          <h1 id="courseTitle">Finance 101: การเงินส่วนบุคคล</h1>
+          <p class="muted" style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+            เรียนรู้พื้นฐานการเงินที่ทุกคนต้องรู้ ตั้งแต่การจัดการรายรับ-รายจ่าย การออมเงินอย่างมีประสิทธิภาพ ไปจนถึงการวางแผนภาษี เพื่ออิสรภาพทางการเงินของคุณ
+          </p>
+          <div class="course-meta">
+            <span><i class="fa-solid fa-clock"></i> 12 ชั่วโมง</span>
+            <span class="meta-sep"></span>
+            <span><i class="fa-solid fa-video"></i> 24 บทเรียน</span>
+            <span class="meta-sep"></span>
+            <span><i class="fa-solid fa-star" style="color:#f7c549"></i> 4.9/5</span>
+          </div>
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="register.html" class="btn primary" style="font-size: 1.2rem; padding: 1rem 2rem;">สมัครเรียนทันที - ฿2,990</a>
+            <button class="btn" style="font-size: 1.2rem; padding: 1rem 2rem;"><i class="fa-regular fa-bookmark"></i> บันทึก</button>
+          </div>
+        </div>
+        <div class="course-img-wrap">
+          <img src="assets/course1.png" alt="Finance 101" class="course-image" id="courseImage" />
+        </div>
+      </section>
+
+      <section class="section gs-reveal" style="margin-top: 3rem;">
+        <h2>สิ่งที่คุณจะได้เรียนรู้</h2>
+        <div class="grid-2" style="margin-top: 1.5rem;">
+          <div class="card" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <div style="color: var(--ok); font-size: 1.5rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <strong>หลักการจัดการเงินสด</strong>
+              <p class="muted">เทคนิคการบริหารสภาพคล่องไม่ให้ช็อต</p>
+            </div>
+          </div>
+          <div class="card" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <div style="color: var(--ok); font-size: 1.5rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <strong>การวางแผนภาษี</strong>
+              <p class="muted">ใช้สิทธิ์ลดหย่อนให้คุ้มค่าที่สุด</p>
+            </div>
+          </div>
+          <div class="card" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <div style="color: var(--ok); font-size: 1.5rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <strong>ตั้งเป้าหมายทางการเงิน</strong>
+              <p class="muted">มี Roadmap ที่ชัดเจนในแต่ละช่วงวัย</p>
+            </div>
+          </div>
+          <div class="card" style="display: flex; align-items: flex-start; gap: 1rem;">
+            <div style="color: var(--ok); font-size: 1.5rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <strong>ปูพื้นฐานการลงทุน</strong>
+              <p class="muted">ต่อยอดเงินออมให้งอกเงย</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section gs-reveal">
+        <h2>เนื้อหาหลักสูตร (Curriculum)</h2>
+        <ul class="curriculum-list">
+          <li>
+            <div><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 10px;"></i> 1. Mindset การเงินที่ถูกต้อง</div>
+            <span class="muted">15 นาที</span>
+          </li>
+          <li>
+            <div><i class="fa-solid fa-play" style="color: var(--brand); margin-right: 10px;"></i> 2. การทำงบประมาณรายบุคคล</div>
+            <span class="muted">25 นาที</span>
+          </li>
+          <li>
+            <div><i class="fa-solid fa-lock" style="color: var(--muted); margin-right: 10px;"></i> 3. เทคนิคการปลดหนี้ไว 3 เท่า</div>
+            <span class="muted">40 นาที</span>
+          </li>
+          <li>
+            <div><i class="fa-solid fa-lock" style="color: var(--muted); margin-right: 10px;"></i> 4. วางแผนภาษีสำหรับมนุษย์เงินเดือน</div>
+            <span class="muted">55 นาที</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===== GROWTH CHART SECTION ===== -->
+      <section class="chart-section gs-reveal" style="margin-top: 1rem;">
+        <h2>ผลตอบแทนตลอดการเรียน</h2>
+        <p class="chart-sub">เส้นทางการเติบโตทางการเงินของนักเรียนโดยเฉลี่ย หลังผ่านหลักสูตร Finance 101</p>
+        <div class="chart-wrapper">
+          <svg id="growthChart" viewBox="0 0 800 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Fix: SVG attributes don't support CSS vars — use hardcoded colors that update via JS -->
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#177544"/>
+                <stop offset="100%" stop-color="#7a86ff"/>
+              </linearGradient>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7a86ff" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#7a86ff" stop-opacity="0"/>
+              </linearGradient>
+              <marker id="arrowHead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#7a86ff"/>
+              </marker>
+              <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Grid lines: use CSS class instead of SVG attribute for theming -->
+            <line x1="0" y1="40" x2="800" y2="40" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.5"/>
+            <line x1="0" y1="90" x2="800" y2="90" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.5"/>
+            <line x1="0" y1="140" x2="800" y2="140" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.5"/>
+            <line x1="0" y1="190" x2="800" y2="190" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.5"/>
+            <!-- Area fill -->
+            <path id="chartArea"
+              d="M0,190 L60,185 L120,178 L200,160 L260,148 L320,135 L380,118 L430,100 L490,82 L550,60 L620,45 L680,32 L760,18 L800,12 L800,220 L0,220 Z"
+              fill="url(#areaGrad)" opacity="0" />
+            <!-- Main line -->
+            <path id="chartLine"
+              d="M0,190 L60,185 L120,178 L200,160 L260,148 L320,135 L380,118 L430,100 L490,82 L550,60 L620,45 L680,32 L760,18 L800,12"
+              fill="none"
+              stroke="url(#lineGrad)"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              filter="url(#glowFilter)"
+              marker-end="url(#arrowHead)"
+            />
+            <!-- Data dots (hidden initially, shown after animation) -->
+            <g id="chartDots" opacity="0">
+              <circle cx="60" cy="185" r="4" class="chart-dot"/>
+              <circle cx="200" cy="160" r="4" class="chart-dot"/>
+              <circle cx="320" cy="135" r="4" class="chart-dot"/>
+              <circle cx="490" cy="82" r="4" class="chart-dot"/>
+              <circle cx="620" cy="45" r="4" class="chart-dot"/>
+              <circle cx="800" cy="12" r="6" class="chart-dot-end"/>
+            </g>
+          </svg>
+          <div class="chart-labels">
+            <span>เริ่มต้น</span>
+            <span>สัปดาห์ 2</span>
+            <span>เดือน 1</span>
+            <span>เดือน 2</span>
+            <span>เดือน 3</span>
+            <span>จบคอร์ส</span>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-dot"></span>
+          <span>ศักยภาพทางการเงินโดยเฉลี่ยหลังเรียน</span>
+        </div>
+      </section>
+
+      <!-- ===== ENROLLMENT CHART ===== -->
+      <section class="enroll-section gs-reveal">
+        <h2>จำนวนนักเรียนที่เข้าคอร์สแต่ละเดือน</h2>
+        <p class="enroll-sub">ยอดผู้ลงทะเบียนคอร์สรายเดือน — ดูแนวโน้มการเติบโตของชุมชนเรียนรู้</p>
+        <div class="enroll-wrap">
+          <svg id="enrollChart" viewBox="0 0 800 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="enrollGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#177544"/>
+                <stop offset="100%" stop-color="#7a86ff"/>
+              </linearGradient>
+              <linearGradient id="enrollArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7a86ff" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#7a86ff" stop-opacity="0"/>
+              </linearGradient>
+              <marker id="enrollArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#7a86ff"/>
+              </marker>
+              <filter id="enrollGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Grid -->
+            <line x1="0" y1="44" x2="800" y2="44" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="0" y1="95" x2="800" y2="95" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="0" y1="146" x2="800" y2="146" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.4"/>
+            <line x1="0" y1="197" x2="800" y2="197" class="chart-grid-line" stroke-dasharray="4 4" opacity="0.4"/>
+            <!-- Area -->
+            <path id="enrollAreaPath"
+              d="M20,173 L145,110 L270,131 L395,89 L520,126 L645,148 L770,36 L770,220 L20,220 Z"
+              fill="url(#enrollArea)" opacity="0"/>
+            <!-- Zigzag line: จุด1(ต่ำ)→จุด2(ขึ้น)→จุด3(ลง)→จุด4(ขึ้น)→จุด5(ลง)→จุด6(ลง)→จุด7(พุ่งสูง) -->
+            <path id="enrollLine"
+              d="M20,173 L145,110 L270,131 L395,89 L520,126 L645,148 L770,36"
+              fill="none" stroke="url(#enrollGrad)" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"
+              filter="url(#enrollGlow)" marker-end="url(#enrollArrow)"
+            />
+            <!-- Data dots -->
+            <g id="enrollDots" opacity="0">
+              <circle cx="20"  cy="173" r="5" class="chart-dot"/>
+              <circle cx="145" cy="110" r="5" class="chart-dot"/>
+              <circle cx="270" cy="131" r="5" class="chart-dot"/>
+              <circle cx="395" cy="89"  r="5" class="chart-dot"/>
+              <circle cx="520" cy="126" r="5" class="chart-dot"/>
+              <circle cx="645" cy="148" r="5" class="chart-dot"/>
+              <circle cx="770" cy="36"  r="7" class="chart-dot-end"/>
+            </g>
+            <!-- Value labels (visible after anim) -->
+            <g id="enrollVals" opacity="0" font-size="11" fill="#7a86ff" font-weight="600" text-anchor="middle">
+              <text x="20"  y="168">45</text>
+              <text x="145" y="105">78</text>
+              <text x="270" y="126">62</text>
+              <text x="395" y="84" >95</text>
+              <text x="520" y="121">71</text>
+              <text x="645" y="143">58</text>
+              <text x="770" y="31" fill="#2ea85a">148</text>
+            </g>
+          </svg>
+          <div class="enroll-month-labels">
+            <span>ม.ค.</span><span>ก.พ.</span><span>มี.ค.</span>
+            <span>เม.ย.</span><span>พ.ค.</span><span>มิ.ย.</span><span>ก.ค.</span>
+          </div>
+        </div>
+        <div class="enroll-legend">
+          <span class="legend-dot"></span>
+          <span>จำนวนนักเรียนที่ลงทะเบียนต่อเดือน (คน)</span>
+        </div>
+      </section>
+
+      <!-- ===== REVIEW SECTION ===== -->
+      <section class="review-section gs-reveal">
+        <h2>รีวิวจากนักเรียน</h2>
+        <div class="review-overview">
+          <div class="rating-big">
+            <div class="rating-score" id="avgScore">4.9</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count" id="reviewCount">3 รีวิว</div>
+          </div>
+          <div class="rating-bars" id="ratingBars">
+            <div class="bar-row"><span>5 ★</span><div class="bar-track"><div class="bar-fill" data-w="90"></div></div><span>90%</span></div>
+            <div class="bar-row"><span>4 ★</span><div class="bar-track"><div class="bar-fill" data-w="7"></div></div><span>7%</span></div>
+            <div class="bar-row"><span>3 ★</span><div class="bar-track"><div class="bar-fill" data-w="3"></div></div><span>3%</span></div>
+            <div class="bar-row"><span>2 ★</span><div class="bar-track"><div class="bar-fill" data-w="0"></div></div><span>0%</span></div>
+            <div class="bar-row"><span>1 ★</span><div class="bar-track"><div class="bar-fill" data-w="0"></div></div><span>0%</span></div>
+          </div>
+        </div>
+
+        <div class="review-list" id="reviewList"></div>
+        <button id="loadMoreReviewsBtn" class="btn secondary" style="width:100%; margin-top:1rem; display:none; background:var(--bg-soft); color:var(--text); border:1px solid var(--border);">ดูรีวิวเพิ่มเติม (อีก <span id="moreCount">0</span>)</button>
+
+        <div class="write-review">
+          <h3><i class="fa-solid fa-pen-to-square" style="color:var(--brand);margin-right:0.5rem"></i>เขียนรีวิวของคุณ</h3>
+          <label>คะแนน</label>
+          <div class="star-picker" id="starPicker">
+            <i class="fa-regular fa-star" data-v="1"></i>
+            <i class="fa-regular fa-star" data-v="2"></i>
+            <i class="fa-regular fa-star" data-v="3"></i>
+            <i class="fa-regular fa-star" data-v="4"></i>
+            <i class="fa-regular fa-star" data-v="5"></i>
+          </div>
+          <label for="reviewName">ชื่อของคุณ</label>
+          <input type="text" id="reviewName" placeholder="เช่น สมชาย ว." style="margin-top:0.4rem;margin-bottom:0.8rem" />
+          <label for="reviewText">รีวิว</label>
+          <textarea id="reviewText" placeholder="บอกเล่าประสบการณ์การเรียน..." style="margin-top:0.4rem"></textarea>
+          <div class="review-actions">
+            <button class="btn primary" id="submitReview"><i class="fa-solid fa-paper-plane" style="margin-right:0.4rem"></i>ส่งรีวิว</button>
+          </div>
+          <div id="reviewFeedback" class="feedback"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>FinMaster Academy - แพลตฟอร์มคอร์สการเงินครบวงจร</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('id');
+        
+        if(courseId === 'advanced') {
+          document.getElementById('courseTitle').textContent = 'Portfolio & Risk Management';
+          document.getElementById('courseImage').src = 'assets/course2.png';
+          // Can customize content further dynamically
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
+          gsap.fromTo(elem, 
+            { y: 50, opacity: 0 }, 
+            { 
+              y: 0, opacity: 1, duration: 1, ease: "power3.out",
+              scrollTrigger: {
+                trigger: elem,
+                start: "top 85%",
+              }
+            }
+          );
+        });
+
+        // ===== ANIMATED CHART =====
+        const chartLine = document.getElementById('chartLine');
+        const chartArea = document.getElementById('chartArea');
+        const chartDots = document.getElementById('chartDots');
+
+        if (chartLine) {
+          const totalLength = chartLine.getTotalLength();
+          // Fix: use setAttribute for SVG element — style property unreliable on SVG
+          chartLine.setAttribute('stroke-dasharray', totalLength);
+          chartLine.setAttribute('stroke-dashoffset', totalLength);
+
+          ScrollTrigger.create({
+            trigger: '#growthChart',
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+              // Animate using gsap attr proxy (works cross-browser on SVG)
+              gsap.to(chartLine, {
+                attr: { 'stroke-dashoffset': 0 },
+                duration: 2.2,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                  gsap.to(chartArea, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+                  gsap.to(chartDots, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+                }
+              });
+            }
+          });
+        }
+
+        // ===== ENROLLMENT CHART ANIMATION =====
+        const enrollLine = document.getElementById('enrollLine');
+        const enrollAreaPath = document.getElementById('enrollAreaPath');
+        const enrollDots = document.getElementById('enrollDots');
+        const enrollVals = document.getElementById('enrollVals');
+
+        if (enrollLine) {
+          const len = enrollLine.getTotalLength();
+          enrollLine.setAttribute('stroke-dasharray', len);
+          enrollLine.setAttribute('stroke-dashoffset', len);
+
+          ScrollTrigger.create({
+            trigger: '#enrollChart',
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+              gsap.to(enrollLine, {
+                attr: { 'stroke-dashoffset': 0 },
+                duration: 2.5,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                  gsap.to(enrollAreaPath, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+                  gsap.to(enrollDots,    { opacity: 1, duration: 0.4, ease: 'power2.out' });
+                  gsap.to(enrollVals,    { opacity: 1, duration: 0.4, delay: 0.2, ease: 'power2.out' });
+                }
+              });
+            }
+          });
+        }
+
+        // Animate rating bars when scrolled into view
+        ScrollTrigger.create({
+          trigger: '#ratingBars',
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+              bar.style.width = bar.dataset.w + '%';
+            });
+          }
+        });
+
+        // ===== REVIEW SYSTEM =====
+        const COURSE_KEY = 'fm_reviews_' + (new URLSearchParams(window.location.search).get('id') || 'basic');
+        const AVATAR_COLORS = ['#5b6df9','#9a62ff','#177544','#2ea85a','#c562ff','#f7a549'];
+
+        const defaultReviews = [
+          { name:'ภานุพงศ์ ก.', stars:5, text:'คอร์สนี้เปลี่ยนมุมมองทางการเงินของผมไปเลย เนื้อหาชัดเจน เข้าใจง่าย อาจารย์อธิบายได้ดีมาก แนะนำสำหรับทุกคนที่อยากเริ่มต้นวางแผนการเงิน', date:'12 เม.ย. 2026' },
+          { name:'อรอุมา ล.', stars:5, text:'ได้ความรู้จริงๆ ตั้งแต่พื้นฐานจนถึงการวางแผนภาษี เนื้อหาครบถ้วนและนำไปปรับใช้ได้ทันที ราคาคุ้มมากๆ', date:'3 พ.ค. 2026' },
+          { name:'กรวิชญ์ ส.', stars:4, text:'โดยรวมดีมาก มีบางส่วนที่ต้องการให้ลงรายละเอียดเพิ่ม แต่สอนครบและเข้าใจง่าย คุ้มค่าแน่นอน', date:'8 พ.ค. 2026' },
+          { name:'นภัสวรรณ ร.', stars:5, text:'เนื้อหาจัดเต็มมากๆ ชอบตรงที่มีตัวอย่างจริงให้ดูด้วย ทำให้เห็นภาพชัดเจน', date:'10 พ.ค. 2026' },
+          { name:'ธนภัทร ว.', stars:4, text:'วิดีโอคุณภาพดี เสียงชัดเจน แต่ในมือถือตัวหนังสือในสไลด์บางหน้าเล็กไปนิดนึง', date:'15 พ.ค. 2026' },
+          { name:'พิมพ์ชนก ม.', stars:5, text:'คุ้มค่าทุกบาททุกสตางค์ ช่วยให้วางแผนเกษียณได้ดีขึ้นเยอะเลยค่ะ', date:'18 พ.ค. 2026' },
+          { name:'ศุภโชค อ.', stars:5, text:'แบบฝึกหัดท้าทายดีครับ ทำให้รู้ว่าตัวเองยังขาดความรู้ตรงไหน', date:'22 พ.ค. 2026' },
+          { name:'จิรภัทร ท.', stars:4, text:'สอนดีครับ แต่อยากให้มี session ถาม-ตอบ สดบ้างจะดีมาก', date:'25 พ.ค. 2026' },
+          { name:'ณิชา พ.', stars:5, text:'ชอบตรงที่ย้อนกลับมาดูได้ตลอดเวลา ลืมตรงไหนก็กลับมาทบทวนได้', date:'28 พ.ค. 2026' },
+          { name:'กิตติพงษ์ ส.', stars:5, text:'ระบบเรียนใช้งานง่ายมาก ลื่นไหลสุดๆ', date:'1 มิ.ย. 2026' },
+          { name:'รัตนา น.', stars:4, text:'เนื้อหาส่วนภาษีอธิบายได้เคลียร์มาก ช่วยลดหย่อนภาษีได้จริง', date:'5 มิ.ย. 2026' },
+          { name:'วรวุฒิ ย.', stars:5, text:'แนะนำเพื่อนมาเรียนหลายคนแล้ว ไม่ผิดหวังเลยครับ', date:'8 มิ.ย. 2026' },
+          { name:'สิริวิมล ค.', stars:5, text:'อาจารย์ใช้ภาษาที่เข้าใจง่าย ไม่ใช้ศัพท์เทคนิคเยอะเกินไป', date:'12 มิ.ย. 2026' },
+          { name:'พงศกร จ.', stars:4, text:'เนื้อหาดี แต่บางบทยาวไปหน่อย น่าจะแบ่งเป็นคลิปสั้นๆ', date:'15 มิ.ย. 2026' },
+          { name:'อมรรัตน์ ป.', stars:5, text:'รู้สึกมั่นใจเรื่องการเงินมากขึ้น หลังจากเรียนจบคอร์สนี้', date:'18 มิ.ย. 2026' },
+          { name:'ชัยวัฒน์ บ.', stars:5, text:'ยกตัวอย่างได้เห็นภาพ และตรงกับสถานการณ์ปัจจุบันมาก', date:'20 มิ.ย. 2026' },
+          { name:'กัญญารัตน์ ผ.', stars:4, text:'แอดมินตอบคำถามเร็วมากค่ะ บริการดีเยี่ยม', date:'22 มิ.ย. 2026' },
+          { name:'ธนา ป.', stars:5, text:'ยอดเยี่ยมมากครับ สรุปเนื้อหาได้กระชับ ตรงประเด็น', date:'24 มิ.ย. 2026' },
+          { name:'นันทิยา ซ.', stars:5, text:'ชอบที่มีเอกสารประกอบการเรียนให้ดาวน์โหลดด้วย มีประโยชน์มากค่ะ', date:'26 มิ.ย. 2026' },
+          { name:'ปกรณ์ ศ.', stars:4, text:'คอร์สนี้ให้มุมมองใหม่ในการลงทุน ขอบคุณสำหรับความรู้ครับ', date:'28 มิ.ย. 2026' }
+        ];
+
+        function getReviews() {
+          const saved = localStorage.getItem(COURSE_KEY);
+          return saved ? JSON.parse(saved) : defaultReviews;
+        }
+
+        function saveReviews(arr) {
+          localStorage.setItem(COURSE_KEY, JSON.stringify(arr));
+        }
+
+        function renderStars(n) {
+          return '★'.repeat(n) + '☆'.repeat(5 - n);
+        }
+
+        function getInitial(name) {
+          return name.trim().charAt(0).toUpperCase() || '?';
+        }
+
+        function getColor(name) {
+          let h = 0;
+          for (let i = 0; i < name.length; i++) h += name.charCodeAt(i);
+          return AVATAR_COLORS[h % AVATAR_COLORS.length];
+        }
+
+        let showAllReviews = false;
+
+        function renderReviews() {
+          const list = document.getElementById('reviewList');
+          const reviews = getReviews();
+          
+          const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
+          
+          list.innerHTML = visibleReviews.map(r => `
+            <div class="review-item">
+              <div class="review-top">
+                <div class="reviewer-avatar" style="background:${getColor(r.name)}">${getInitial(r.name)}</div>
+                <div class="reviewer-info">
+                  <div class="reviewer-name">${r.name}</div>
+                  <div class="reviewer-date">${r.date}</div>
+                </div>
+                <div class="review-stars-row">${renderStars(r.stars)}</div>
+              </div>
+              <p class="review-text">${r.text}</p>
+            </div>
+          `).join('');
+
+          // Handle load more button
+          const loadMoreBtn = document.getElementById('loadMoreReviewsBtn');
+          if (!showAllReviews && reviews.length > 3) {
+            loadMoreBtn.style.display = 'block';
+            document.getElementById('moreCount').textContent = reviews.length - 3;
+          } else {
+            loadMoreBtn.style.display = 'none';
+          }
+
+          // Update avg
+          const avg = (reviews.reduce((s, r) => s + r.stars, 0) / reviews.length).toFixed(1);
+          document.getElementById('avgScore').textContent = avg;
+          document.getElementById('reviewCount').textContent = reviews.length + ' รีวิว';
+        }
+
+        renderReviews();
+
+        document.getElementById('loadMoreReviewsBtn').addEventListener('click', () => {
+          showAllReviews = true;
+          renderReviews();
+        });
+
+        // ===== Star picker (fixed: no fragile className.replace) =====
+        let selectedStars = 0;
+        const starPicker = document.getElementById('starPicker');
+
+        function updateStars(hoverVal) {
+          starPicker.querySelectorAll('i').forEach(s => {
+            const active = +s.dataset.v <= (hoverVal !== null ? hoverVal : selectedStars);
+            s.className = active ? 'fa-solid fa-star lit' : 'fa-regular fa-star';
+          });
+        }
+
+        starPicker.querySelectorAll('i').forEach(star => {
+          star.addEventListener('mouseover', () => updateStars(+star.dataset.v));
+          star.addEventListener('mouseleave', () => updateStars(null));
+          star.addEventListener('click', () => {
+            selectedStars = +star.dataset.v;
+            updateStars(null);
+          });
+        });
+
+        // Submit review
+        document.getElementById('submitReview').addEventListener('click', () => {
+          const name = document.getElementById('reviewName').value.trim();
+          const text = document.getElementById('reviewText').value.trim();
+          const fb   = document.getElementById('reviewFeedback');
+
+          if (!name) { fb.textContent='กรุณากรอกชื่อ'; fb.className='feedback error'; return; }
+          if (!selectedStars) { fb.textContent='กรุณาให้คะแนน'; fb.className='feedback error'; return; }
+          if (!text) { fb.textContent='กรุณาเขียนรีวิว'; fb.className='feedback error'; return; }
+
+          const reviews = getReviews();
+          const now = new Date();
+          const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+          const dateStr = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+          reviews.push({ name, stars: selectedStars, text, date: dateStr });
+          saveReviews(reviews);
+          renderReviews();
+
+          document.getElementById('reviewName').value = '';
+          document.getElementById('reviewText').value = '';
+          selectedStars = 0;
+          starPicker.querySelectorAll('i').forEach(s => s.className='fa-regular fa-star');
+          fb.textContent = 'ขอบคุณสำหรับรีวิวของคุณ!';
+          fb.className = 'feedback ok';
+          setTimeout(() => { fb.className='feedback'; }, 3000);
+        });
+      });
+    </script>
+  </body>
+</html>

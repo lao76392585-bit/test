@@ -1,24 +1,4 @@
-function createSplashIntro() {
-  if (sessionStorage.getItem("fxSplashShown")) return;
-  sessionStorage.setItem("fxSplashShown", "1");
 
-  const splash = document.createElement("div");
-  splash.className = "fx-splash";
-  splash.innerHTML = `
-    <div class="fx-splash-center">
-      <h1>FINMASTER 3D EXPERIENCE</h1>
-      <p>Loading dollar storm background...</p>
-    </div>
-    <div class="coin-track"></div>
-    <div class="coin"></div>
-    <div class="coin coin-b"></div>
-    <div class="coin coin-c"></div>
-  `;
-  document.body.appendChild(splash);
-
-  setTimeout(() => splash.classList.add("hide"), 3200);
-  setTimeout(() => splash.remove(), 4600);
-}
 
 function enableTiltCards() {
   document.querySelectorAll(".card, .hero-card").forEach((card) => {
@@ -51,7 +31,7 @@ function upgradeButtons() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  createSplashIntro();
+
   if (typeof initThreeBackground === "function") {
     initThreeBackground();
   }

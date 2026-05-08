@@ -64,7 +64,7 @@ function initThreeBackground() {
     bill.position.set((Math.random() - 0.5) * 300, (Math.random() - 0.5) * 220, (Math.random() - 0.5) * 320);
     bill.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
     bill.userData = {
-      fallSpeed: Math.random() * 0.85 + 0.45,
+      fallSpeed: (Math.random() * 0.85 + 0.45) / 2,
       driftSpeed: Math.random() * 0.02 + 0.008,
       swayAmp: Math.random() * 0.9 + 0.3,
       spinX: (Math.random() - 0.5) * 0.028,

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>เรียนได้ทุกอุปกรณ์ - FinMaster Academy</title>
+  <script>if(localStorage.getItem("website.theme")==="dark"||!localStorage.getItem("website.theme"))document.documentElement.classList.add("dark");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    .page-hero { padding: 3rem 0 2rem; }
+    .page-hero .badge { background: linear-gradient(135deg,var(--header-grad-a),var(--header-grad-c)); color:#fff; padding:0.3rem 0.9rem; border-radius:20px; font-size:0.85rem; font-weight:600; display:inline-block; margin-bottom:1rem; }
+    .page-hero h1 { font-size:clamp(2rem,5vw,3rem); background:linear-gradient(135deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .page-hero p { color:var(--muted); margin-top:0.8rem; font-size:1.05rem; max-width:600px; }
+    .stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:2rem 0; }
+    .stat-box { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:1.5rem; text-align:center; }
+    .stat-box .num { font-size:2.2rem; font-weight:800; background:linear-gradient(135deg,var(--header-grad-a),var(--brand)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat-box p { color:var(--muted); font-size:0.85rem; margin-top:0.3rem; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th { background:linear-gradient(135deg,var(--header-grad-a),var(--header-grad-c)); color:#fff; padding:0.9rem 1rem; text-align:left; font-size:0.9rem; }
+    th:first-child { border-radius:14px 0 0 0; }
+    th:last-child  { border-radius:0 14px 0 0; }
+    td { padding:0.85rem 1rem; border-bottom:1px solid var(--border); font-size:0.88rem; color:var(--muted); }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:color-mix(in srgb,var(--brand) 5%,transparent); color:var(--text); }
+    .check { color:var(--ok); } .cross { color:var(--danger); }
+    .device-bar-section { margin-top:2rem; }
+    .dbar-row { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+    .dbar-label { width:100px; font-size:0.88rem; color:var(--muted); flex-shrink:0; }
+    .dbar-track { flex:1; height:12px; background:var(--border); border-radius:20px; overflow:hidden; }
+    .dbar-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--header-grad-a),var(--brand)); width:0; transition:width 1.4s ease; }
+    .dbar-val { width:40px; text-align:right; font-size:0.82rem; font-weight:600; color:var(--brand); flex-shrink:0; }
+    @media(max-width:760px){ .stat-row{grid-template-columns:1fr 1fr;} }
+  </style>
+</head>
+<body>
+  <div class="blob-bg"></div>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html"><img src="assets/logo.png" alt="FinMaster Logo" class="brand-logo-img"/>FinMaster Academy</a>
+      <ul class="nav-links">
+        <li><a href="index.html">หน้าแรก</a></li>
+        <li><a href="about.html">เกี่ยวกับ</a></li>
+        <li><a href="services.html">คอร์ส</a></li>
+        <li><a href="contact.html">ติดต่อ</a></li>
+        <li><a id="navLogin" href="login.html">เข้าสู่ระบบ</a></li>
+        <li><a id="navRegister" href="register.html">สมัครสมาชิก</a></li>
+        <li><a id="navDashboard" href="dashboard.html" style="display:none">แดชบอร์ด</a></li>
+        <li><a id="navLogout" href="#" style="display:none">ออกจากระบบ</a></li>
+      </ul>
+      <div class="actions">
+        <button id="themeBtn" class="icon-btn" type="button"><i class="fa-solid fa-moon"></i></button>
+        <button id="audioBtn" class="icon-btn" type="button"><i class="fa-solid fa-volume-high"></i></button>
+        <button id="menuBtn" class="icon-btn menu-btn" type="button"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-hero gs-reveal">
+      <div class="badge"><i class="fa-solid fa-mobile-screen"></i> ฟีเจอร์</div>
+      <h1>เรียนได้ทุกอุปกรณ์</h1>
+      <p>เข้าถึงบทเรียน วิดีโอ เอกสาร และแบบฝึกหัด ได้ทุกที่ ทุกเวลา ไม่ว่าจะเป็นมือถือ แท็บเล็ต หรือคอมพิวเตอร์</p>
+    </div>
+
+    <div class="stat-row gs-reveal">
+      <div class="stat-box"><div class="num">3+</div><p>Platform รองรับ</p></div>
+      <div class="stat-box"><div class="num">99.9%</div><p>Uptime ระบบ</p></div>
+      <div class="stat-box"><div class="num">24/7</div><p>เข้าถึงได้ตลอด</p></div>
+    </div>
+
+    <section class="section gs-reveal">
+      <h2>สัดส่วนการใช้งานตามอุปกรณ์</h2>
+      <p class="muted" style="margin-bottom:1.5rem">จากข้อมูลนักเรียนที่ใช้แพลตฟอร์มในช่วง 6 เดือนล่าสุด</p>
+      <div class="device-bar-section card" id="deviceBars">
+        <div class="dbar-row"><div class="dbar-label"><i class="fa-solid fa-mobile-screen"></i> มือถือ</div><div class="dbar-track"><div class="dbar-fill" data-w="58"></div></div><div class="dbar-val">58%</div></div>
+        <div class="dbar-row"><div class="dbar-label"><i class="fa-solid fa-laptop"></i> คอมพิวเตอร์</div><div class="dbar-track"><div class="dbar-fill" data-w="31"></div></div><div class="dbar-val">31%</div></div>
+        <div class="dbar-row"><div class="dbar-label"><i class="fa-solid fa-tablet-screen-button"></i> แท็บเล็ต</div><div class="dbar-track"><div class="dbar-fill" data-w="11"></div></div><div class="dbar-val">11%</div></div>
+      </div>
+    </section>
+
+    <section class="section gs-reveal">
+      <h2>ตารางความรองรับแต่ละอุปกรณ์</h2>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th>ฟีเจอร์</th><th><i class="fa-solid fa-mobile-screen"></i> มือถือ</th><th><i class="fa-solid fa-tablet-screen-button"></i> แท็บเล็ต</th><th><i class="fa-solid fa-laptop"></i> คอม</th></tr></thead>
+          <tbody>
+            <tr><td>ดูวิดีโอบทเรียน</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td></tr>
+            <tr><td>ดาวน์โหลดเอกสาร PDF</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td></tr>
+            <tr><td>ทำแบบฝึกหัด Quiz</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td></tr>
+            <tr><td>เครื่องคำนวณการเงิน</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td></tr>
+            <tr><td>หน้าจอแยกซ้าย-ขวา (Split View)</td><td class="cross">✘ ไม่รองรับ</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td></tr>
+            <tr><td>Offline Mode</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="cross">✘ ไม่รองรับ</td></tr>
+            <tr><td>Push Notification</td><td class="check">✔ รองรับ</td><td class="check">✔ รองรับ</td><td class="cross">✘ ไม่รองรับ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section gs-reveal" style="text-align:center;padding-bottom:3rem">
+      <a href="register.html" class="btn primary" style="font-size:1.1rem;padding:0.9rem 2.5rem">เริ่มเรียนเลย <i class="fa-solid fa-arrow-right"></i></a>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container"><p>FinMaster Academy - แพลตฟอร์มคอร์สการเงินครบวงจร</p></div></footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded",()=>{
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.gs-reveal').forEach(el=>gsap.fromTo(el,{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 85%"}}));
+      ScrollTrigger.create({trigger:'#deviceBars',start:'top 85%',once:true,onEnter:()=>{
+        document.querySelectorAll('.dbar-fill').forEach(b=>b.style.width=b.dataset.w+'%');
+      }});
+    });
+  </script>
+</body>
+</html>
